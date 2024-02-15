@@ -12,9 +12,9 @@ class AddressService implements AddressServiceInterface
   {
   }
 
-  public function getAll(): array
+  public function findAll(): array
   {
-    return $this->repository->getAll();
+    return $this->repository->findAll();
   }
 
   public function findOne(int $id): Address|null

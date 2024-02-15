@@ -12,9 +12,9 @@ class CityService implements CityServiceInterface
   {
   }
 
-  public function getAll(): array
+  public function findAll(): array
   {
-    return $this->repository->getAll();
+    return $this->repository->findAll();
   }
 
   public function findOne(int $id): City|null

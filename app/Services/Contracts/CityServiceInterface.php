@@ -6,7 +6,7 @@ use App\Models\City;
 
 interface CityServiceInterface
 {
-  public function getAll(): array;
+  public function findAll(): array;
   public function findOne(int $id): City|null;
   public function new($dto): City;
   public function update($dto, int $id): City|null;

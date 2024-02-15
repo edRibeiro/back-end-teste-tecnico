@@ -12,9 +12,9 @@ class UserService implements UserServiceInterface
   {
   }
 
-  public function getAll(): array
+  public function findAll(): array
   {
-    return $this->repository->getAll();
+    return $this->repository->findAll();
   }
 
   public function findOne(int $id): User|null
