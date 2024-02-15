@@ -1,6 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\AddressController;
+use App\Http\Controllers\Api\CityController;
+use App\Http\Controllers\Api\StateController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 
@@ -19,6 +21,25 @@ use App\Http\Controllers\Api\UserController;
     return $request->user();
 }); */
 
-Route::prefix('usuarios')->group(function () {
-    Route::get('/', [UserController::class, 'index'])->name('api.users.index');
+Route::controller(UserController::class)->group(function () {
+    Route::get('/users', 'index')->name('api.users.index');
+    Route::get('/users/{id}', 'show')->name('api.users.show');
+    Route::post('/users', 'store')->name('api.users.store');
+    Route::put('/users/{id}', 'update')->name('api.users.update');
+    Route::delete('/users/{id}', 'destroy')->name('api.users.destroy');
+});
+
+Route::controller(AddressController::class)->group(function () {
+    Route::get('/addresses', 'index')->name('api.addresses.index');
+    Route::get('/addresses/{id}', 'show')->name('api.addresses.show');
+});
+
+Route::controller(CityController::class)->group(function () {
+    Route::get('/cities', 'index')->name('api.cities.index');
+    Route::get('/cities/{id}', 'show')->name('api.cities.show');
+});
+
+Route::controller(StateController::class)->group(function () {
+    Route::get('/states', 'index')->name('api.states.index');
+    Route::get('/states/{id}', 'show')->name('api.states.show');
 });
