@@ -10,6 +10,14 @@ use App\Repositories\Contracts\StateRepositoryInterface;
 use App\Repositories\Contracts\UserRepositoryInterface;
 use App\Repositories\StateRepository;
 use App\Repositories\UserRepository;
+use App\Services\AddressService;
+use App\Services\CityService;
+use App\Services\Contracts\AddressServiceInterface;
+use App\Services\Contracts\CityServiceInterface;
+use App\Services\Contracts\StateServiceInterface;
+use App\Services\Contracts\UserServiceInterface;
+use App\Services\StateService;
+use App\Services\UserService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -31,5 +39,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(AddressRepositoryInterface::class, AddressRepository::class);
         $this->app->bind(StateRepositoryInterface::class, StateRepository::class);
         $this->app->bind(CityRepositoryInterface::class, CityRepository::class);
+
+        $this->app->bind(UserServiceInterface::class, UserService::class);
+        $this->app->bind(AddressServiceInterface::class, AddressService::class);
+        $this->app->bind(StateServiceInterface::class, StateService::class);
+        $this->app->bind(CityServiceInterface::class, CityService::class);
     }
 }
