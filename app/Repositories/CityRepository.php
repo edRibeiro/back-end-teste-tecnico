@@ -8,7 +8,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CityRepository implements CityRepositoryInterface
 {
-  public function __construct(private City $model)
+  public function __construct(protected City $model)
   {
   }
 

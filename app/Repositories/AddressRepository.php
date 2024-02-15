@@ -8,7 +8,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AddressRepository implements AddressRepositoryInterface
 {
-  public function __construct(private Address $model)
+  public function __construct(protected Address $model)
   {
   }
 

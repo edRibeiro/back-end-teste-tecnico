@@ -8,7 +8,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class StateRepository implements StateRepositoryInterface
 {
-  public function __construct(private State $model)
+  public function __construct(protected State $model)
   {
   }
 
