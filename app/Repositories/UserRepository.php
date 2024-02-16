@@ -25,11 +25,12 @@ class UserRepository implements UserRepositoryInterface
 
   public function new(UserDto $dto): User
   {
-    return $this->model->create([
+    $user = $this->model->create([
       'name' => $dto->name,
       'email' => $dto->email,
       'address_id' => $dto->address->id,
     ]);
+    return $user->load(['address.city.state']);
   }
 
   public function update(UserDto $dto, int $id): User|null

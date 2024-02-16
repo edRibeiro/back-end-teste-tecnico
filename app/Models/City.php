@@ -22,6 +22,15 @@ class City extends Model
         'state_id'
     ];
 
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'deleted_at'
+    ];
+
     function state(): BelongsTo
     {
         return $this->belongsTo(State::class);
