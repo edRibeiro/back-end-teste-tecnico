@@ -21,6 +21,15 @@ class State extends Model
         'name',
     ];
 
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'deleted_at'
+    ];
+
     public function cities(): HasMany
     {
         return $this->hasMany(User::class);
