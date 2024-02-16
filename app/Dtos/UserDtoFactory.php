@@ -12,7 +12,7 @@ class UserDtoFactory
     $addressDTO = new AddressDTO(
       $request['address']['street'],
       $request['address']['number'],
-      $request['address']['complement'],
+      $request['address']['complement'] ?? null,
       $request['address']['neighborhood'],
       $cityDTO
     );

@@ -9,6 +9,8 @@ use App\Http\Resources\UserResource;
 use App\Services\Contracts\UserServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserController extends Controller
@@ -30,7 +32,22 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $dto = UserDtoFactory::makeFromArray($request->input());
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|unique:users',
+            'address.street' => 'required',
+            'address.number' => 'required',
+            'address.complement' => 'nullable|string',
+            'address.neighborhood' => 'required',
+            'address.city.name' => 'required',
+            'address.city.state.name' => 'required|max:2',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->errorResponse($validator, 422);
+        }
+
+        $dto = UserDtoFactory::makeFromArray($validator->safe()->all());
         return new UserResource($this->service->new($dto));
     }
 
@@ -47,7 +64,25 @@ class UserController extends Controller
      */
     public function update(Request $request, int $id)
     {
-        $dto = UserDtoFactory::makeFromArray($request->input());
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => [
+                'required',
+                Rule::unique('users')->ignore($id),
+            ],
+            'address.street' => 'required',
+            'address.number' => 'required',
+            'address.complement' => 'nullable|string',
+            'address.neighborhood' => 'required',
+            'address.city.name' => 'required',
+            'address.city.state.name' => 'required|max:2',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->errorResponse($validator->errors(), 422);
+        }
+
+        $dto = UserDtoFactory::makeFromArray($validator->safe()->all());
         return new UserResource($this->service->update($dto, $id));
     }
 

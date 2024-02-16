@@ -7,7 +7,7 @@ class AddressDto
   public function __construct(
     public string $street,
     public string $number,
-    public string $complement,
+    public ?string $complement,
     public string $neighborhood,
     public CityDto $city,
     public int $id = 0
