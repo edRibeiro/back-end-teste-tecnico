@@ -12,30 +12,40 @@ class AddressRepository implements AddressRepositoryInterface
   {
   }
 
-  public function getAll(): array
+  public function findAll(): array
   {
-    return $this->model->get()->toArray();
+    return $this->model->with(['city.state'])->get()->toArray();
   }
 
   public function findOne(int $id): Address|null
   {
-    return $this->model->findOne($id);
+    return $this->model->with(['city.state'])->find($id);
   }
 
   public function new($dto): Address
   {
-    $this->model->fill($dto)->save();
-    return $this->model;
+    return (object) ($this->model->create([
+      'street' => $dto->street,
+      'number' => $dto->number,
+      'complement' => $dto->complement,
+      'neighborhood' => $dto->neighborhood,
+      'city_id' => $dto->city->id
+    ])->load(['city.state']));
   }
 
   public function update($dto, int $id): Address|null
   {
-    $city = $this->model->findOne($id);
-    if (!$city) {
+    $addressData = $this->model->find($id);
+    if (!$addressData) {
       throw new NotFoundHttpException();
     }
-    $city->fill($dto)->save();
-    return $this->model;
+    $addressData->street = $dto->street;
+    $addressData->number = $dto->number;
+    $addressData->complement = $dto->complement;
+    $addressData->neighborhood = $dto->neighborhood;
+    $addressData->city_id = $dto->city->id;
+    $addressData->save();
+    return $addressData->load(['city.state']);
   }
 
   public function delete(int $id): void

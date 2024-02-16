@@ -11,4 +11,5 @@ interface StateRepositoryInterface
   public function new($dto): State;
   public function update($dto, int $id): State|null;
   public function delete(int $id): void;
+  public function findByName(string $name): State|null;
 }

@@ -19,22 +19,21 @@ class StateRepository implements StateRepositoryInterface
 
   public function findOne(int $id): State|null
   {
-    return $this->model->findOne($id);
+    return $this->model->find($id);
   }
 
   public function new($dto): State
   {
-    $this->model->fill($dto)->save();
-    return $this->model;
+    return $this->model->firstOrCreate(['name' => $dto->name]);
   }
 
   public function update($dto, int $id): State|null
   {
-    $state = $this->model->findOne($id);
+    $state = $this->model->find($id);
     if (!$state) {
       throw new NotFoundHttpException();
     }
-    $state->fill($dto)->save();
+    $state->firstOrCreate($dto)->save();
     return $this->model;
   }
 
@@ -45,5 +44,10 @@ class StateRepository implements StateRepositoryInterface
       throw new NotFoundHttpException();
     }
     $state->delete();
+  }
+
+  public function findByName(string $name): State|null
+  {
+    return $this->model->where('name', '=', $name)->first();
   }
 }

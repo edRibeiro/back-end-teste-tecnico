@@ -12,28 +12,28 @@ class CityRepository implements CityRepositoryInterface
   {
   }
 
-  public function getAll(): array
+  public function findAll(): array
   {
-    return $this->model->get()->toArray();
+    return $this->model->with(['state'])->get()->toArray();
   }
   public function findOne(int $id): City|null
   {
-    return $this->model->findOne($id);
+    return $this->model->with(['state'])->find($id);
   }
+
   public function new($dto): City
   {
-    $this->model->fill($dto)->save();
-
-    return $this->model;
+    return ($this->model->firstOrCreate(['name' => $dto->name], ['state_id' => $dto->state->id]))->load(['state']);
   }
+
   public function update($dto, int $id): City|null
   {
-    $city = $this->model->findOne($id);
+    $city = $this->model->find($id);
     if (!$city) {
       throw new NotFoundHttpException();
     }
     $city->fill($dto)->save();
-    return $this->model;
+    return $this->model->load(['state']);
   }
   public function delete(int $id): void
   {
@@ -42,5 +42,10 @@ class CityRepository implements CityRepositoryInterface
       throw new NotFoundHttpException();
     }
     $city->delete();
+  }
+
+  public function findByName(string $name): City|null
+  {
+    return $this->model->with(['state'])->where('name', '=', $name)->first();
   }
 }
