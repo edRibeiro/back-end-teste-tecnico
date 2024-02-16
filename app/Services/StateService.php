@@ -14,7 +14,7 @@ class StateService implements StateServiceInterface
 
   public function findAll(): array
   {
-    return $this->repository->findAll();
+    return $this->repository->getAll();
   }
 
   public function findOne(int $id): State|null
