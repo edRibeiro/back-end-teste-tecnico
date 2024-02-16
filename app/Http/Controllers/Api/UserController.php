@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Dtos\UserDtoFactory;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
@@ -29,7 +30,8 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        return new UserResource($this->service->new($request->input()));
+        $dto = UserDtoFactory::makeFromArray($request->input());
+        return new UserResource($this->service->new($dto));
     }
 
     /**
@@ -43,9 +45,10 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, int $id)
     {
-        return new UserResource($this->service->update($request->input(), $id));
+        $dto = UserDtoFactory::makeFromArray($request->input());
+        return new UserResource($this->service->update($dto, $id));
     }
 
     /**
