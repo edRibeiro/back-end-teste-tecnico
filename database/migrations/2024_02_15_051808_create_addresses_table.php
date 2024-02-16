@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('street');
             $table->string('number');
-            $table->string('complement');
+            $table->string('complement')->nullable();
             $table->string('neighborhood');
             $table->foreignId('city_id')
                 ->constrained(table: 'cities', indexName: 'addresses_city_id')
