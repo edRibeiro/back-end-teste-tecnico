@@ -90,8 +90,6 @@ class UserService implements UserServiceInterface
 
   public function delete(int $id): void
   {
-    $user = self::findOne($id);
-    $this->addressRepository->delete($user->address_id);
     $this->userRepository->delete($id);
   }
 }
